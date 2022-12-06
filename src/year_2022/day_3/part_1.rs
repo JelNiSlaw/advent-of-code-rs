@@ -1,32 +1,35 @@
 use std::collections::HashSet;
-use std::fs::File;
-use std::io::{BufRead, BufReader};
 
-use crate::shared::print_answer;
+use advent_of_code::Solve;
 
-pub fn main() {
-    let lines = BufReader::new(File::open("src/year_2022/day_3/input.txt").unwrap())
-        .lines()
-        .flatten();
+pub struct Solution;
 
-    let sum = lines
-        .map(|line| {
-            let mut chars = line.chars();
-            let left = chars
-                .by_ref()
-                .take(line.chars().count() / 2)
-                .collect::<HashSet<_>>();
-            let right = chars.by_ref().collect::<HashSet<_>>();
+impl Solve for Solution {
+    fn correct_solution(&self) -> &str {
+        "7872"
+    }
 
-            let common = *left.intersection(&right).next().unwrap();
+    fn solve(&self, lines: Vec<String>) -> String {
+        let sum = lines
+            .into_iter()
+            .map(|line| {
+                let mut chars = line.chars();
+                let left = chars
+                    .by_ref()
+                    .take(line.chars().count() / 2)
+                    .collect::<HashSet<_>>();
+                let right = chars.by_ref().collect::<HashSet<_>>();
 
-            match common {
-                'a'..='z' => common as u32 - 96,
-                'A'..='Z' => common as u32 - 38,
-                _ => unreachable!(),
-            }
-        })
-        .sum::<u32>();
+                let common = *left.intersection(&right).next().unwrap();
 
-    print_answer(2022, 3, 1, sum);
+                match common {
+                    'a'..='z' => common as u32 - 96,
+                    'A'..='Z' => common as u32 - 38,
+                    _ => unreachable!(),
+                }
+            })
+            .sum::<u32>();
+
+        sum.to_string()
+    }
 }

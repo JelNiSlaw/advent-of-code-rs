@@ -1,28 +1,29 @@
-use std::fs::File;
-use std::io::{BufRead, BufReader};
+use advent_of_code::Solve;
 
-use crate::shared::print_answer;
+pub struct Solution;
 
-pub fn main() {
-    let lines = BufReader::new(File::open("src/year_2022/day_1/input.txt").unwrap())
-        .lines()
-        .flatten();
-
-    let mut elves = vec![];
-    let mut current = 0;
-
-    for line in lines {
-        if line.is_empty() {
-            elves.push(current);
-            current = 0;
-            continue;
-        }
-
-        current += line.parse::<u32>().unwrap();
+impl Solve for Solution {
+    fn correct_solution(&self) -> &str {
+        "205615"
     }
 
-    elves.sort_by(|a, b| b.cmp(a));
-    let top_sum = elves.into_iter().take(3).sum::<u32>();
+    fn solve(&self, lines: Vec<String>) -> String {
+        let mut elves = vec![];
+        let mut current = 0;
 
-    print_answer(2022, 1, 2, top_sum);
+        for line in lines {
+            if line.is_empty() {
+                elves.push(current);
+                current = 0;
+                continue;
+            }
+
+            current += line.parse::<u32>().unwrap();
+        }
+
+        elves.sort_by(|a, b| b.cmp(a));
+        let top_sum = elves.into_iter().take(3).sum::<u32>();
+
+        top_sum.to_string()
+    }
 }
