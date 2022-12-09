@@ -1,5 +1,7 @@
 use advent_of_code::Solve;
 
+use super::shared::parse_line;
+
 pub struct Solution;
 
 impl Solve for Solution {
@@ -11,26 +13,7 @@ impl Solve for Solution {
         let count = lines
             .into_iter()
             .filter(|line| {
-                let mut chars = line.chars();
-                let start_a = chars
-                    .by_ref()
-                    .take_while(|c| *c != '-')
-                    .collect::<String>()
-                    .parse::<u32>()
-                    .unwrap();
-                let end_a = chars
-                    .by_ref()
-                    .take_while(|c| *c != ',')
-                    .collect::<String>()
-                    .parse::<u32>()
-                    .unwrap();
-                let start_b = chars
-                    .by_ref()
-                    .take_while(|c| *c != '-')
-                    .collect::<String>()
-                    .parse::<u32>()
-                    .unwrap();
-                let end_b = chars.by_ref().collect::<String>().parse::<u32>().unwrap();
+                let [start_a, end_a, start_b, end_b] = parse_line(line);
 
                 start_a <= end_b && start_b <= end_a
             })
