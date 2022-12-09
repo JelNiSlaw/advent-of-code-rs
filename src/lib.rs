@@ -2,7 +2,7 @@ use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::str::FromStr;
 
-const FIRST_YEAR: usize = 2022;
+const FIRST_YEAR: usize = 2021;
 
 pub trait Solve {
     fn correct_solution(&self) -> &str;

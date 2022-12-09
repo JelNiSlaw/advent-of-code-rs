@@ -3,11 +3,12 @@
 use std::env;
 
 use advent_of_code::{Selection, Solve};
+mod year_2021;
 mod year_2022;
 
 #[must_use]
 pub fn years() -> Vec<Vec<Vec<Box<dyn Solve>>>> {
-    vec![year_2022::days()]
+    vec![year_2021::days(), year_2022::days()]
 }
 
 fn main() {
