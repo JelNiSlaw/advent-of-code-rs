@@ -34,13 +34,13 @@ fn parse_arguments(
                 match Selection::parse(&first_arg) {
                     Ok(first_selection) => first_selection,
                     Err(_) => {
-                        return Err(format!("invalid day {first_arg:?}"));
+                        return Err(format!("invalid year {first_arg:?}"));
                     }
                 },
                 match Selection::parse(&second_arg) {
                     Ok(first_selection) => first_selection,
                     Err(_) => {
-                        return Err(format!("invalid year {second_arg:?}"));
+                        return Err(format!("invalid day {second_arg:?}"));
                     }
                 },
             )),
@@ -55,9 +55,7 @@ fn parse_arguments(
                         }
                     }
                 },
-                Err(_) => {
-                    return Err(format!("invalid day {first_arg:?}"));
-                }
+                Err(_) => Err(format!("invalid day {first_arg:?}")),
             },
         },
         None => Ok((Selection::Latest, Selection::Latest)),
