@@ -19,7 +19,7 @@ impl Solve for Solution {
         for instruction in instructions {
             cycle += 1;
 
-            if (cycle + 20) % 40 == 0 {
+            if cycle % 40 == 20 {
                 measurements.push(cycle * register);
             }
 
