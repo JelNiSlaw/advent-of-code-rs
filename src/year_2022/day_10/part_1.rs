@@ -10,13 +10,11 @@ impl Solve for Solution {
     }
 
     fn solve(&self, lines: Vec<String>) -> String {
-        let instructions = parse_instructions(lines);
-
         let mut register = 1;
         let mut cycle = 0;
         let mut measurements = Vec::new();
 
-        for instruction in instructions {
+        for instruction in parse_instructions(lines) {
             cycle += 1;
 
             if cycle % 40 == 20 {
