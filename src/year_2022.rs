@@ -2,6 +2,7 @@ use advent_of_code::Solve;
 
 mod day_1;
 mod day_10;
+mod day_11;
 mod day_2;
 mod day_3;
 mod day_4;
@@ -23,5 +24,6 @@ pub fn days() -> Vec<Vec<Box<dyn Solve>>> {
         day_8::parts(),
         day_9::parts(),
         day_10::parts(),
+        day_11::parts(),
     ]
 }
