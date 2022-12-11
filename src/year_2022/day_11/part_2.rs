@@ -1,6 +1,7 @@
 use std::mem;
 
 use advent_of_code::Solve;
+use itertools::Itertools;
 
 use super::shared::Monkey;
 
@@ -52,7 +53,12 @@ impl Solve for Solution {
             }
         }
 
-        monkeys.sort_by(|a, b| b.inspected_items.cmp(&a.inspected_items));
-        (monkeys[0].inspected_items * monkeys[1].inspected_items).to_string()
+        monkeys
+            .into_iter()
+            .map(|monkey| monkey.inspected_items)
+            .sorted_by(|a, b| b.cmp(a))
+            .take(2)
+            .product::<usize>()
+            .to_string()
     }
 }
