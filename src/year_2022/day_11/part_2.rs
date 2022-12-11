@@ -37,8 +37,7 @@ impl Solve for Solution {
             let mut m = 0;
             while m < monkeys.len() {
                 let monkey = monkeys.get_mut(m).unwrap();
-                let mut items = Vec::new();
-                mem::swap(&mut monkey.items, &mut items);
+                let items = mem::take(&mut monkey.items);
                 monkey.inspected_items += items.len();
                 let operation = monkey.operation;
                 let test = monkey.test;
