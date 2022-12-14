@@ -53,12 +53,6 @@ impl Directory {
                                     current_path.pop();
                                 }
                                 _ => {
-                                    if !current_directory.children.contains_key(&dir_name) {
-                                        current_directory
-                                            .children
-                                            .insert(dir_name.clone(), Self::default());
-                                    }
-
                                     current_path.push(dir_name);
                                 }
                             }
