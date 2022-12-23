@@ -11,6 +11,6 @@ impl Solve for Solution {
 
     fn solve(&self, lines: Vec<String>) -> String {
         let mut monkeys = parse_monkeys(lines.into_iter());
-        monkey_value("root", &mut monkeys).to_string()
+        monkey_value("root", &mut monkeys).unwrap().to_string()
     }
 }
