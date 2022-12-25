@@ -66,7 +66,11 @@ pub fn run_solutions(
             }
         };
 
-        for (day_offset, day) in days.into_iter().enumerate() {
+        for (day_offset, day) in days
+            .into_iter()
+            .enumerate()
+            .filter(|(_, day)| !day.is_empty())
+        {
             run_solution(day, year_n + year_offset, day_n + day_offset);
         }
     }
