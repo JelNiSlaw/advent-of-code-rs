@@ -8,6 +8,7 @@ mod day_13;
 mod day_14;
 mod day_15;
 mod day_2;
+mod day_20;
 mod day_21;
 mod day_25;
 mod day_3;
@@ -39,7 +40,7 @@ pub fn days() -> Vec<Vec<Box<dyn Solve>>> {
         vec![],
         vec![],
         vec![],
-        vec![],
+        day_20::parts(),
         day_21::parts(),
         vec![],
         vec![],
