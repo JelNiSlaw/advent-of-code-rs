@@ -1,7 +1,6 @@
 use advent_of_code::Solve;
 
-use super::shared::grove_coordinates;
-use crate::year_2022::day_20::shared::mix_numbers;
+use super::shared::{grove_coordinates, mix_numbers};
 
 pub struct Solution;
 

@@ -1,7 +1,6 @@
 use advent_of_code::Solve;
 
-use super::shared::from_snafu;
-use crate::year_2022::day_25::shared::to_snafu;
+use super::shared::{from_snafu, to_snafu};
 
 pub struct Solution;
 
