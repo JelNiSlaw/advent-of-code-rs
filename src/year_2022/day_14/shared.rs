@@ -24,7 +24,7 @@ pub fn parse_line(line: &str) -> HashSet<(u32, u32)> {
     line_points
 }
 
-fn minmax(a: u32, b: u32) -> (u32, u32) {
+const fn minmax(a: u32, b: u32) -> (u32, u32) {
     if a <= b {
         (a, b)
     } else {

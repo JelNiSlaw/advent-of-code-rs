@@ -21,7 +21,7 @@ impl Solve for Solution {
             .into_iter()
             .filter(|line| !line.is_empty())
             .map(|line| Data::parse(line.strip_prefix('[').unwrap().strip_suffix(']').unwrap()))
-            .chain(marker_packets.clone().into_iter())
+            .chain(marker_packets.clone())
             .collect::<Vec<_>>();
 
         packets.sort_unstable_by(|a, b| {

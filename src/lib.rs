@@ -1,3 +1,5 @@
+#![warn(clippy::pedantic, clippy::nursery)]
+
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::str::FromStr;
@@ -17,15 +19,17 @@ pub enum Selection {
 }
 
 impl Selection {
+    #[allow(clippy::missing_errors_doc)]
     pub fn parse(text: &str) -> Result<Self, <usize as FromStr>::Err> {
         match text {
             "*" => Ok(Self::All),
             "." => Ok(Self::Latest),
-            text => Ok(Selection::Single(text.parse()?)),
+            text => Ok(Self::Single(text.parse()?)),
         }
     }
 }
 
+#[allow(clippy::missing_panics_doc)]
 pub fn run_solutions(
     all_solutions: Vec<Vec<Vec<Box<dyn Solve>>>>,
     year_selection: Selection,

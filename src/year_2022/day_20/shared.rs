@@ -11,7 +11,8 @@ pub fn mix_numbers(numbers: impl Iterator<Item = i64>, rounds: usize) -> Vec<i64
                 .unwrap();
             numbers.rotate_left(index);
             let (position, value) = numbers.pop_front().unwrap();
-            let distance = value.rem_euclid(numbers.len() as _);
+            #[allow(clippy::cast_possible_wrap)]
+            let distance = value.rem_euclid(numbers.len() as i64);
             numbers.rotate_left(distance.try_into().unwrap());
             numbers.push_front((position, value));
         }

@@ -20,7 +20,7 @@ impl Data {
                 _ => {
                     let mut number = char.to_string();
                     number.extend(chars.by_ref().take_while(char::is_ascii_digit));
-                    list.push(Data::Int(number.parse().unwrap()));
+                    list.push(Self::Int(number.parse().unwrap()));
                 }
             }
         }

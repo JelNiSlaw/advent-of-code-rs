@@ -6,6 +6,7 @@ pub fn from_snafu(snafu: &str) -> i64 {
         .rev()
         .enumerate()
         .map(|(i, char)| {
+            #[allow(clippy::cast_possible_wrap)]
             let value = SNAFU.into_iter().position(|x| x == char).unwrap() as i64 - 2;
             value * (5_i64.pow(u32::try_from(i).unwrap()))
         })

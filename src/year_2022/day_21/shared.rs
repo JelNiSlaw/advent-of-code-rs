@@ -27,10 +27,10 @@ impl Operation {
             let rhs = chars.by_ref().skip(1).collect::<String>();
 
             match operator {
-                '+' => Operation::Add(lhs, rhs),
-                '-' => Operation::Subtract(lhs, rhs),
-                '*' => Operation::Multiply(lhs, rhs),
-                '/' => Operation::Divide(lhs, rhs),
+                '+' => Self::Add(lhs, rhs),
+                '-' => Self::Subtract(lhs, rhs),
+                '*' => Self::Multiply(lhs, rhs),
+                '/' => Self::Divide(lhs, rhs),
                 _ => unreachable!(),
             }
         }

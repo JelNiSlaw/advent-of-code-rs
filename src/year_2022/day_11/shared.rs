@@ -56,11 +56,11 @@ impl Operation {
 
     pub fn calculate(&self, current_value: u64) -> u64 {
         match self {
-            Operation::Add(value) => match value {
+            Self::Add(value) => match value {
                 Value::Value(value) => current_value + value,
                 Value::Current => current_value * 2,
             },
-            Operation::MultiplyBy(value) => match value {
+            Self::MultiplyBy(value) => match value {
                 Value::Value(value) => current_value * value,
                 Value::Current => current_value.pow(2),
             },
@@ -117,7 +117,7 @@ impl Test {
         }
     }
 
-    pub fn test(&self, value: u64) -> usize {
+    pub const fn test(&self, value: u64) -> usize {
         if value % self.divisible_by == 0 {
             self.if_true
         } else {

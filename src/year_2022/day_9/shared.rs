@@ -1,4 +1,4 @@
-pub fn calculate_move(head: (i32, i32), tail: (i32, i32)) -> (i32, i32) {
+pub const fn calculate_move(head: (i32, i32), tail: (i32, i32)) -> (i32, i32) {
     let x_diff = head.0 - tail.0;
     let y_diff = head.1 - tail.1;
 

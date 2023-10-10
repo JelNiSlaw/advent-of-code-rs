@@ -12,7 +12,6 @@ impl Solve for Solution {
     fn solve(&self, lines: Vec<String>) -> String {
         let sum = lines
             .chunks(3)
-            .into_iter()
             .map(|chunk| {
                 let rucksacks = chunk
                     .iter()

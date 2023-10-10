@@ -1,4 +1,4 @@
-#![warn(clippy::pedantic)]
+#![warn(clippy::pedantic, clippy::nursery)]
 
 use std::env;
 
@@ -45,8 +45,9 @@ fn parse_arguments(
                     }
                 },
             )),
-            None => match Selection::parse(&first_arg) {
-                Ok(first_selection) => match first_selection {
+            None => Selection::parse(&first_arg).map_or_else(
+                |_| Err(format!("invalid day {first_arg:?}")),
+                |first_selection| match first_selection {
                     Selection::All | Selection::Latest => Ok((Selection::Latest, first_selection)),
                     Selection::Single(value) => {
                         if value >= 1000 {
@@ -56,8 +57,7 @@ fn parse_arguments(
                         }
                     }
                 },
-                Err(_) => Err(format!("invalid day {first_arg:?}")),
-            },
+            ),
         },
         None => Ok((Selection::Latest, Selection::Latest)),
     }
