@@ -55,7 +55,7 @@ pub fn run_solutions(
         }
     };
 
-    print_selection(year_selection, day_selection);
+    print_selection(year_selection, day_selection, year_n);
 
     for (year_offset, year) in years.into_iter().enumerate() {
         let (day_n, days) = match day_selection {
@@ -104,10 +104,10 @@ fn run_solution(parts: Vec<Box<dyn Solve>>, year: usize, day: usize) {
     }
 }
 
-fn print_selection(year_selection: Selection, day_selection: Selection) {
+fn print_selection(year_selection: Selection, day_selection: Selection, latest_year: usize) {
     let year_text = match year_selection {
         Selection::All => "all years".into(),
-        Selection::Latest => "latest year".into(),
+        Selection::Latest => format!("latest year ({latest_year})"),
         Selection::Single(value) => format!("year {value}"),
     };
 
