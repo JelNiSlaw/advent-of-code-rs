@@ -3,6 +3,7 @@
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::str::FromStr;
+use std::time::Instant;
 
 const FIRST_YEAR: usize = 2021;
 
@@ -89,15 +90,17 @@ fn run_solution(parts: Vec<Box<dyn Solve>>, year: usize, day: usize) {
     .collect::<Result<Vec<_>, _>>()
     .unwrap();
 
-    for (part_n, part) in parts.into_iter().enumerate() {
-        let part_n = part_n + 1;
-        let result = part.solve(input.clone());
+    for (part, part_n) in parts.into_iter().zip(1..) {
+        let input_cloned = input.clone();
+        let start = Instant::now();
+        let result = part.solve(input_cloned);
+        let duration = start.elapsed();
         let check = if result == part.correct_solution() {
             '✅'
         } else {
             '❌'
         };
-        println!("year {year}, day {day}, part {part_n}: {check} {result}");
+        println!("year {year}, day {day}, part {part_n}: {check} {result} {duration:?}");
     }
 }
 
