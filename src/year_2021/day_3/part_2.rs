@@ -1,6 +1,6 @@
 use advent_of_code::Solve;
 
-use super::shared;
+use super::shared::bit_counts;
 
 pub struct Solution;
 
@@ -27,7 +27,7 @@ impl Solve for Solution {
 fn system_rating(mut numbers: Vec<u32>, bit_count: usize, least_common: bool) -> u32 {
     for n in 0..bit_count {
         let number_count = u32::try_from(numbers.len()).unwrap();
-        let bit_counts = shared::bit_counts(&numbers, bit_count);
+        let bit_counts = bit_counts(&numbers, bit_count);
         let mut most_common = bit_counts[n] * 2 >= number_count;
 
         if least_common {

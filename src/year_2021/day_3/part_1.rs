@@ -1,6 +1,6 @@
 use advent_of_code::Solve;
 
-use super::shared;
+use super::shared::bit_counts;
 
 pub struct Solution;
 
@@ -18,7 +18,7 @@ impl Solve for Solution {
             .map(|line| u32::from_str_radix(&line, 2).unwrap())
             .collect::<Vec<_>>();
 
-        let bit_counts = shared::bit_counts(&numbers, bit_count);
+        let bit_counts = bit_counts(&numbers, bit_count);
         let most_common_bits = most_common_bits(&bit_counts, number_count);
 
         let gamma_rate = most_common_bits
