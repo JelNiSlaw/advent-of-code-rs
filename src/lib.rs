@@ -96,11 +96,11 @@ fn run_solution(parts: Vec<Box<dyn Solve>>, year: usize, day: usize) {
         let result = part.solve(input_cloned);
         let duration = start.elapsed();
         let check = if result == part.correct_solution() {
-            '✅'
+            "\x1B[32m✔\x1B[0m"
         } else {
-            '❌'
+            "\x1B[31m✘\x1B[0m"
         };
-        println!("year {year}, day {day}, part {part_n}: {check} {result} {duration:?}");
+        println!("year {year}, day {day}, part {part_n}: {check} {result} ({duration:?})");
     }
 }
 
