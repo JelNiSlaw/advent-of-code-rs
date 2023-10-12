@@ -10,10 +10,11 @@ impl Solve for Solution {
     }
 
     fn solve(&self, lines: Vec<String>) -> String {
-        grove_coordinates(&mix_numbers(
-            lines.into_iter().map(|line| line.parse().unwrap()),
+        let numbers = mix_numbers(
+            lines.into_iter().map(|line| line.parse::<i64>().unwrap()),
             1,
-        ))
-        .to_string()
+        );
+
+        grove_coordinates(&numbers).to_string()
     }
 }

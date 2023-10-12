@@ -1,7 +1,5 @@
-use std::collections::VecDeque;
-
-pub fn mix_numbers(numbers: impl Iterator<Item = i64>, rounds: usize) -> Vec<i64> {
-    let mut numbers = numbers.enumerate().collect::<VecDeque<_>>();
+pub fn mix_numbers(numbers: impl Iterator<Item = i64>, rounds: u32) -> Vec<i64> {
+    let mut numbers = numbers.enumerate().collect::<Vec<_>>();
 
     for _ in 0..rounds {
         for i in 0..numbers.len() {
@@ -9,23 +7,24 @@ pub fn mix_numbers(numbers: impl Iterator<Item = i64>, rounds: usize) -> Vec<i64
                 .iter()
                 .position(|&(position, _)| position == i)
                 .unwrap();
-            numbers.rotate_left(index);
-            let (position, value) = numbers.pop_front().unwrap();
-            #[allow(clippy::cast_possible_wrap)]
-            let distance = value.rem_euclid(numbers.len() as i64);
-            numbers.rotate_left(distance.try_into().unwrap());
-            numbers.push_front((position, value));
+
+            let (position, value) = numbers.remove(index);
+
+            let new_index = (i64::try_from(index).unwrap() + value)
+                .rem_euclid(numbers.len().try_into().unwrap());
+
+            numbers.insert(new_index.try_into().unwrap(), (position, value));
         }
     }
 
-    numbers.into_iter().map(|(_, number)| number).collect()
+    numbers.into_iter().map(|(_, value)| value).collect()
 }
 
 pub fn grove_coordinates(numbers: &[i64]) -> i64 {
-    let zero_index = numbers.iter().position(|&x| x == 0).unwrap();
+    let zero_index = numbers.iter().position(|&value| value == 0).unwrap();
 
-    [1_000, 2_000, 3_000]
+    [1000, 2000, 3000]
+        .map(|offset| numbers[(zero_index + offset) % numbers.len()])
         .into_iter()
-        .map(|n| numbers[(zero_index + n) % numbers.len()])
-        .sum()
+        .sum::<i64>()
 }
