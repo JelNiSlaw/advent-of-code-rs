@@ -14,7 +14,7 @@ impl Data {
         while let Some(char) = chars.by_ref().next() {
             match char {
                 '[' => list.push(Self::parse(
-                    &chars.by_ref().take_while(|c| *c != ']').collect::<String>(),
+                    &chars.by_ref().take_while(|&c| c != ']').collect::<String>(),
                 )),
                 ']' | ',' => (),
                 _ => {
@@ -55,7 +55,7 @@ pub fn right_order(left: &Data, right: &Data) -> Option<bool> {
                 None
             }
         }
-        (left, Data::Int(right)) => right_order(left, &Data::List(vec![Data::Int(*right)])),
-        (Data::Int(left), right) => right_order(&Data::List(vec![Data::Int(*left)]), right),
+        (left, &Data::Int(right)) => right_order(left, &Data::List(vec![Data::Int(right)])),
+        (&Data::Int(left), right) => right_order(&Data::List(vec![Data::Int(left)]), right),
     }
 }

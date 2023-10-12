@@ -25,7 +25,7 @@ impl Solve for Solution {
             .iter()
             .rev()
             .zip(0..)
-            .filter(|(bit, _)| **bit)
+            .filter(|&(&bit, _)| bit)
             .map(|(_, i)| 2u32.pow(i))
             .sum::<u32>();
 
@@ -33,7 +33,7 @@ impl Solve for Solution {
             .iter()
             .rev()
             .zip(0..)
-            .filter(|(bit, _)| !**bit)
+            .filter(|&(&bit, _)| !bit)
             .map(|(_, i)| 2u32.pow(i))
             .sum::<u32>();
 
@@ -44,6 +44,6 @@ impl Solve for Solution {
 fn most_common_bits(bit_counts: &[u32], line_count: u32) -> Vec<bool> {
     bit_counts
         .iter()
-        .map(|bit| *bit * 2 > line_count)
+        .map(|bit| bit * 2 > line_count)
         .collect::<Vec<_>>()
 }

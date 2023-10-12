@@ -19,7 +19,7 @@ impl Solve for Solution {
             .all_directories()
             .into_iter()
             .map(Directory::size)
-            .filter(|size| *size >= missing_space)
+            .filter(|&size| size >= missing_space)
             .min()
             .unwrap();
 

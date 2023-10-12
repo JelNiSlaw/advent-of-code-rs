@@ -18,14 +18,14 @@ fn parse_x_y(mut chars: impl Iterator<Item = char>) -> (i32, i32) {
     let x = chars
         .by_ref()
         .skip(2)
-        .take_while(|c| *c == '-' || c.is_ascii_digit())
+        .take_while(|&c| c == '-' || c.is_ascii_digit())
         .collect::<String>()
         .parse()
         .unwrap();
     let y = chars
         .by_ref()
         .skip(3)
-        .take_while(|c| *c == '-' || c.is_ascii_digit())
+        .take_while(|&c| c == '-' || c.is_ascii_digit())
         .collect::<String>()
         .parse()
         .unwrap();

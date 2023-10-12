@@ -16,7 +16,7 @@ impl Solve for Solution {
             .all_directories()
             .into_iter()
             .map(Directory::size)
-            .filter(|size| *size <= 100_000)
+            .filter(|&size| size <= 100_000)
             .sum::<u32>();
 
         sum.to_string()
