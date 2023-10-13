@@ -5,6 +5,8 @@ use std::io::{BufRead, BufReader};
 use std::str::FromStr;
 use std::time::Instant;
 
+pub mod utils;
+
 const FIRST_YEAR: usize = 2021;
 
 pub trait Solve {

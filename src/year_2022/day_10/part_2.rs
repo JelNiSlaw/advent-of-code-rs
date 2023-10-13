@@ -1,4 +1,4 @@
-use advent_of_code::Solve;
+use advent_of_code::{utils, Solve};
 
 use super::shared::{parse_instructions, Instruction};
 
@@ -6,12 +6,7 @@ pub struct Solution;
 
 impl Solve for Solution {
     fn correct_solution(&self) -> &str {
-        "####.####.####.###..###...##..#..#.#....\n\
-        #.......#.#....#..#.#..#.#..#.#.#..#....\n\
-        ###....#..###..#..#.#..#.#..#.##...#....\n\
-        #.....#...#....###..###..####.#.#..#....\n\
-        #....#....#....#....#.#..#..#.#.#..#....\n\
-        ####.####.#....#....#..#.#..#.#..#.####.\n"
+        "EZFPRAKL"
     }
 
     fn solve(&self, lines: Vec<String>) -> String {
@@ -40,6 +35,6 @@ impl Solve for Solution {
             };
         }
 
-        display
+        utils::decode_big_letters(&display)
     }
 }

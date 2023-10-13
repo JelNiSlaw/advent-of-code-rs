@@ -3,6 +3,7 @@
 use std::env;
 
 use advent_of_code::{Selection, Solve};
+
 mod year_2021;
 mod year_2022;
 
