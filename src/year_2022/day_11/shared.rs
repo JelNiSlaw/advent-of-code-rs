@@ -12,7 +12,7 @@ impl Monkey {
             .next()
             .unwrap()
             .chars()
-            .skip(18)
+            .skip("  Starting items: ".len())
             .collect::<String>()
             .split(", ")
             .map(|item| item.parse::<u64>().unwrap())
@@ -39,7 +39,7 @@ pub enum Operation {
 
 impl Operation {
     fn parse(line: &str) -> Self {
-        let mut chars = line.chars().skip(23);
+        let mut chars = line.chars().skip("  Operation: new = old ".len());
         let operator = chars.by_ref().next().unwrap();
 
         let value = match chars.by_ref().skip(1).collect::<String>().as_str() {
@@ -87,7 +87,7 @@ impl Test {
             .next()
             .unwrap()
             .chars()
-            .skip(21)
+            .skip("  Test: divisible by ".len())
             .collect::<String>()
             .parse()
             .unwrap();
@@ -96,7 +96,7 @@ impl Test {
             .next()
             .unwrap()
             .chars()
-            .skip(29)
+            .skip("    If true: throw to monkey ".len())
             .collect::<String>()
             .parse()
             .unwrap();
@@ -105,7 +105,7 @@ impl Test {
             .next()
             .unwrap()
             .chars()
-            .skip(30)
+            .skip("    If false: throw to monkey ".len())
             .collect::<String>()
             .parse()
             .unwrap();

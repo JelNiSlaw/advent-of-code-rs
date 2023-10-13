@@ -36,22 +36,24 @@ pub fn parse_instructions(
 
         let move_amount = chars
             .by_ref()
-            .skip(5)
+            .skip("move ".len())
             .take_while(char::is_ascii_digit)
             .collect::<String>()
             .parse::<usize>()
             .unwrap();
+
         let move_from = chars
             .by_ref()
-            .skip(5)
+            .skip("from ".len())
             .take_while(char::is_ascii_digit)
             .collect::<String>()
             .parse::<usize>()
             .unwrap()
             - 1;
+
         let move_to = chars
             .by_ref()
-            .skip(3)
+            .skip("to ".len())
             .collect::<String>()
             .parse::<usize>()
             .unwrap()
