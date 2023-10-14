@@ -30,36 +30,34 @@ fn parse_arguments(
     first_arg: Option<String>,
     second_arg: Option<String>,
 ) -> Result<(Selection, Selection), String> {
-    match first_arg {
-        Some(first_arg) => match second_arg {
-            Some(second_arg) => Ok((
-                match Selection::parse(&first_arg) {
-                    Ok(first_selection) => first_selection,
-                    Err(_) => {
-                        return Err(format!("invalid year {first_arg:?}"));
-                    }
-                },
-                match Selection::parse(&second_arg) {
-                    Ok(first_selection) => first_selection,
-                    Err(_) => {
-                        return Err(format!("invalid day {second_arg:?}"));
-                    }
-                },
-            )),
-            None => Selection::parse(&first_arg).map_or_else(
-                |_| Err(format!("invalid day {first_arg:?}")),
-                |first_selection| match first_selection {
-                    Selection::All | Selection::Latest => Ok((Selection::Latest, first_selection)),
-                    Selection::Single(value) => {
-                        if value >= 1000 {
-                            Ok((first_selection, Selection::All))
-                        } else {
-                            Ok((Selection::Latest, first_selection))
-                        }
-                    }
-                },
-            ),
-        },
-        None => Ok((Selection::Latest, Selection::Latest)),
-    }
+    let Some(first_arg) = first_arg else {
+        return Ok((Selection::Latest, Selection::Latest));
+    };
+
+    let Some(second_arg) = second_arg else {
+        let Ok(first_selection) = Selection::parse(&first_arg) else {
+            return Err(format!("invalid day {first_arg:?}"));
+        };
+
+        return match first_selection {
+            Selection::Single(value) => {
+                if value >= 1000 {
+                    Ok((first_selection, Selection::All))
+                } else {
+                    Ok((Selection::Latest, first_selection))
+                }
+            }
+            _ => Ok((Selection::Latest, first_selection)),
+        };
+    };
+
+    let Ok(first_selection) = Selection::parse(&first_arg) else {
+        return Err(format!("invalid year {first_arg:?}"));
+    };
+
+    let Ok(second_selection) = Selection::parse(&second_arg) else {
+        return Err(format!("invalid day {second_arg:?}"));
+    };
+
+    Ok((first_selection, second_selection))
 }
