@@ -16,11 +16,12 @@ impl Solve for Solution {
 
         let xs = sensors
             .into_iter()
-            .filter_map(|((x, y), range)| {
-                let y_diff = y.abs_diff(2_000_000);
-                let range_diff = i32::try_from(range).unwrap() - i32::try_from(y_diff).unwrap() - 1;
+            .filter_map(|sensor| {
+                let y_diff = sensor.y.abs_diff(2_000_000);
+                let range_diff =
+                    i32::try_from(sensor.range).unwrap() - i32::try_from(y_diff).unwrap() - 1;
                 if range_diff > 0 {
-                    Some((x - range_diff - 1)..=(x + range_diff))
+                    Some((sensor.x - range_diff - 1)..=(sensor.x + range_diff))
                 } else {
                     None
                 }

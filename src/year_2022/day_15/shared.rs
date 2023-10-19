@@ -1,15 +1,26 @@
-pub fn parse_sensors(lines: impl Iterator<Item = String>) -> Vec<((i32, i32), u32)> {
+pub struct Sensor {
+    pub x: i32,
+    pub y: i32,
+    pub range: u32,
+}
+
+pub fn parse_sensors(lines: impl Iterator<Item = String>) -> Vec<Sensor> {
     lines
         .map(|line| {
             let mut chars = line.chars().skip("Sensor at ".len());
 
-            let sensor = parse_x_y(chars.by_ref());
-            let beacon = parse_x_y(chars.by_ref().skip(" closest beacon is at ".len()));
+            let (sensor_x, sensor_y) = parse_x_y(chars.by_ref());
+            let (beacon_x, beacon_y) =
+                parse_x_y(chars.by_ref().skip(" closest beacon is at ".len()));
 
-            let x_diff = sensor.0.abs_diff(beacon.0);
-            let y_diff = sensor.1.abs_diff(beacon.1);
+            let x_diff = sensor_x.abs_diff(beacon_x);
+            let y_diff = sensor_y.abs_diff(beacon_y);
 
-            (sensor, x_diff + y_diff)
+            Sensor {
+                x: sensor_x,
+                y: sensor_y,
+                range: x_diff + y_diff,
+            }
         })
         .collect()
 }
