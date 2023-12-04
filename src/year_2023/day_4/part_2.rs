@@ -1,34 +1,8 @@
+use std::collections::VecDeque;
+
 use advent_of_code::Solve;
 
-use crate::year_2023::day_4::shared::Card;
-
-pub enum CardCache {
-    Card(Card),
-    CardCount(u32),
-}
-
-struct Cards(Vec<CardCache>);
-
-impl Cards {
-    fn count_cards(&mut self, i: usize) -> u32 {
-        match &self.0[i] {
-            CardCache::Card(card) => {
-                let card_count = 1
-                    + (1..=card.count_winning_numbers())
-                        .map(|offset| self.count_cards(i + offset))
-                        .sum::<u32>();
-
-                self.0[i] = CardCache::CardCount(card_count);
-                card_count
-            }
-            CardCache::CardCount(cards) => *cards,
-        }
-    }
-
-    fn count_all_cards(&mut self) -> u32 {
-        (0..self.0.len()).map(|i| self.count_cards(i)).sum()
-    }
-}
+use super::shared::Card;
 
 pub struct Solution;
 
@@ -38,13 +12,25 @@ impl Solve for Solution {
     }
 
     fn solve(&self, lines: Vec<String>) -> String {
-        let mut cards = Cards(
-            lines
-                .into_iter()
-                .map(|line| CardCache::Card(Card::parse(&line)))
-                .collect::<Vec<_>>(),
-        );
+        let mut cards = lines
+            .into_iter()
+            .map(|line| (Card::parse(&line), 1))
+            .collect::<VecDeque<(_, u32)>>();
 
-        cards.count_all_cards().to_string()
+        let mut count = 0;
+
+        loop {
+            let Some((card, amount)) = cards.pop_front() else {
+                break;
+            };
+
+            count += amount;
+
+            for card in cards.iter_mut().take(card.count_winning_numbers()) {
+                card.1 += amount;
+            }
+        }
+
+        count.to_string()
     }
 }
