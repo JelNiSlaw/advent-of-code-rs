@@ -4,6 +4,11 @@ pub struct Race {
 }
 
 impl Race {
+    #[allow(
+        clippy::cast_precision_loss,
+        clippy::cast_possible_truncation,
+        clippy::cast_sign_loss
+    )]
     pub fn ways_of_winning(&self) -> u64 {
         let delta = self.time.pow(2) - 4 * self.distance;
         let delta_sqrt = (delta as f64).sqrt();

@@ -1,6 +1,8 @@
+use std::ops::Range;
+
 #[derive(Debug)]
 pub struct Almanac {
-    pub seeds: Vec<u32>,
+    pub seeds: Vec<u64>,
     categories: Vec<Category>,
 }
 
@@ -44,19 +46,16 @@ impl Almanac {
         Self { seeds, categories }
     }
 
-    pub fn map_value(&self, source: u32) -> u32 {
+    pub fn map_value(&self, source: u64) -> u64 {
         self.categories
             .iter()
             .fold(source, |source, category| category.map_value(source))
     }
 
-    pub fn reverse_map_value(&self, destination: u32) -> u32 {
+    pub fn map_ranges(&self, ranges: Vec<Range<u64>>) -> Vec<Range<u64>> {
         self.categories
             .iter()
-            .rev()
-            .fold(destination, |destination, category| {
-                category.reverse_map_value(destination)
-            })
+            .fold(ranges, |ranges, category| category.map_ranges(ranges))
     }
 }
 
@@ -86,26 +85,52 @@ impl Category {
         Self { maps }
     }
 
-    fn map_value(&self, source: u32) -> u32 {
+    fn map_value(&self, source: u64) -> u64 {
         self.maps
             .iter()
             .find_map(|map| map.map_value(source))
             .unwrap_or(source)
     }
 
-    fn reverse_map_value(&self, destination: u32) -> u32 {
-        self.maps
-            .iter()
-            .find_map(|map| map.reverse_map_value(destination))
-            .unwrap_or(destination)
+    fn map_ranges(&self, mut ranges: Vec<Range<u64>>) -> Vec<Range<u64>> {
+        let mut output = Vec::new();
+
+        for map in &self.maps {
+            let mut new_ranges = Vec::new();
+
+            while let Some(range) = ranges.pop() {
+                if range.start < map.source_range_start {
+                    new_ranges.push(range.start..range.end.min(map.source_range_start));
+                }
+
+                if range.start < map.source_range_end() && range.end > map.source_range_start {
+                    output.push(
+                        range.start.max(map.source_range_start) - map.source_range_start
+                            + map.destination_range_start
+                            ..range.end.min(map.source_range_end()) - map.source_range_start
+                                + map.destination_range_start,
+                    );
+                }
+
+                if range.end > map.source_range_end() {
+                    new_ranges.push(range.start.max(map.source_range_end())..range.end);
+                }
+            }
+
+            ranges = new_ranges;
+        }
+
+        output.extend(ranges);
+
+        output
     }
 }
 
 #[derive(Debug, Default)]
 struct Map {
-    destination_range_start: u32,
-    source_range_start: u32,
-    range_length: u32,
+    destination_range_start: u64,
+    source_range_start: u64,
+    range_length: u64,
 }
 
 impl Map {
@@ -132,20 +157,14 @@ impl Map {
         map
     }
 
-    const fn map_value(&self, source: u32) -> Option<u32> {
+    const fn source_range_end(&self) -> u64 {
+        self.source_range_start + self.range_length
+    }
+
+    const fn map_value(&self, source: u64) -> Option<u64> {
         if source >= self.source_range_start && source - self.source_range_start < self.range_length
         {
             Some(source - self.source_range_start + self.destination_range_start)
-        } else {
-            None
-        }
-    }
-
-    const fn reverse_map_value(&self, destination: u32) -> Option<u32> {
-        if destination >= self.destination_range_start
-            && destination - self.destination_range_start < self.range_length
-        {
-            Some(destination - self.destination_range_start + self.source_range_start)
         } else {
             None
         }

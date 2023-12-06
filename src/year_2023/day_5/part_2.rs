@@ -18,18 +18,12 @@ impl Solve for Solution {
             .map(|range| range[0]..range[0] + range[1])
             .collect::<Vec<_>>();
 
-        let mut i = 0;
-
-        loop {
-            let seed = almanac.reverse_map_value(i);
-
-            if ranges.iter().any(|range| range.contains(&seed)) {
-                break;
-            }
-
-            i += 1;
-        }
-
-        i.to_string()
+        almanac
+            .map_ranges(ranges)
+            .into_iter()
+            .map(|range| range.start)
+            .min()
+            .unwrap()
+            .to_string()
     }
 }
