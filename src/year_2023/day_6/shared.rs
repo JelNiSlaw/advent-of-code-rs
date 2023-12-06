@@ -5,27 +5,13 @@ pub struct Race {
 
 impl Race {
     pub fn ways_of_winning(&self) -> u64 {
-        let mut shortest_hold_time = None;
-        let mut longest_hold_time = None;
+        let delta = self.time.pow(2) - 4 * self.distance;
+        let delta_sqrt = (delta as f64).sqrt();
 
-        for hold_time in 1.. {
-            if hold_time * (self.time - hold_time) > self.distance {
-                shortest_hold_time = Some(hold_time);
-                break;
-            }
-        }
+        let time = self.time as f64;
+        let x1 = (time + delta_sqrt) / 2.;
+        let x2 = (time - delta_sqrt) / 2.;
 
-        for negative_hold_time in 1.. {
-            let hold_time = self.time - negative_hold_time;
-            if hold_time * (self.time - hold_time) > self.distance {
-                longest_hold_time = Some(hold_time);
-                break;
-            }
-        }
-
-        shortest_hold_time
-            .unwrap()
-            .abs_diff(longest_hold_time.unwrap())
-            + 1
+        (x1.ceil() - x2.floor()) as u64 - 1
     }
 }
